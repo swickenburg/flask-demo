@@ -6,7 +6,7 @@ from bokeh.plotting import figure, show, save
 from bokeh.io import output_notebook, output_file
 from pandas_datareader.data import DataReader
 import datetime as dt
-
+from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 
@@ -41,19 +41,22 @@ def plot_line():
 
 def get_price(
     symbol,
-    start='30 Sep 2013',
     end='today',
     adjusted=True,
     ):
+
+    time_delta = relativedelta(months=1)
     if end == 'today':
         end = dt.date.today()
     else:
         end = dt.datetime.strptime(end, '%d %b %Y')
 
-    try:
-        start = dt.datetime.strptime(start, '%d %b %Y')
-    except:
-        pass
+    # try:
+        # start = dt.datetime.strptime(start, '%d %b %Y')
+    start = end - time_delta
+
+    # except:
+        # pass
 
     if adjusted:
         price_all = DataReader(symbol, 'yahoo', start, end)['Adj Close']

@@ -12,3 +12,4 @@ pandas
 bokeh
 pandas_datareader
 datetime
+dateutil
